@@ -27,28 +27,30 @@ public class Horses {
             do{
                 solution[horse]++;
                 boolean valid = horseIsValid(solution, horse);
-                System.out.println(Arrays.toString(solution)+" "+ (valid ? "Sol Parcial":"")+(valid && (horse == num_horses - 1) ? "SOLUTION" : ""));
+                System.out.println(Arrays.toString(solution)+" "+ (valid ? "Sol Parcial":"")+(valid && (horse == num_horses - 1) ? " -> SOLUCION" : ""));
                 if(valid)
                     succes = backTracking(solution, horse+1);
             }while(solution[horse] < num_horses-1 && !succes);
+            solution[horse]=-1;
         }
-        solution[horse]=-1;
         return succes;
     }
 
     public boolean horseIsValid(int[] solution, int horse) {
         boolean ok = true;
         for (int i = 0; i < horse; i++) {
-            if(solution[i+2]+1==solution[horse] || solution[i+1]+2==solution[horse] || solution[i+2]-1==solution[horse] || solution[i+1]-2==solution[horse]) {
-                ok = false;
-                break;
+            if(i+2 <= horse) {
+                if(solution[i+2]+1==solution[horse] || solution[i+1]+2==solution[horse] || solution[i+2]-1==solution[horse] || solution[i+1]-2==solution[horse]) {
+                    ok = false;
+                    break;
+                }
             }
         }
         return ok;
     }
 
     public static void main(String[] args) {
-        Horses horses = new Horses(10);
+        Horses horses = new Horses(4);
         horses.searchSolution();
     }
 }

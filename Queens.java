@@ -9,8 +9,8 @@ public class Queens {
         this.num_queens = num_queens;
         solution = new int[num_queens];
         init();
-        String strArray = Arrays.toString(solution);
-        System.out.println(strArray);
+        //String strArray = Arrays.toString(solution);
+        //System.out.println(strArray);
     }
 
     public void init() {
@@ -19,6 +19,7 @@ public class Queens {
     }
 
     public void searchSolution() {
+        init();
         backTracking(solution, 0);
     }
     
@@ -32,8 +33,8 @@ public class Queens {
                 if(valid)
                     succes = backTracking(solution, queen+1);
             }while(solution[queen] < num_queens-1 && !succes);
+            solution[queen]=-1;
         }
-        solution[queen]=-1;
         return succes;
     }
 
