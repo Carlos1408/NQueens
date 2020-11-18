@@ -16,7 +16,7 @@ public class Queens extends JFrame{
     private int num_queens;
     private int[] solution;
     private static final long serialVertsionUID = 1L;
-    private static final int SIZE = 800;
+    private static final int SIZE = 500;
     private static JPanel panelBoard = new JPanel();
     private List<int[]> listSolution;
     private int qSol;
@@ -25,18 +25,25 @@ public class Queens extends JFrame{
     public Queens(int num_queens) {
         this.num_queens = num_queens;
         solution = new int[num_queens];
-        initializeComponents();
+        initComponents();
         init();
         listSolution = new LinkedList<>();
         qSol = 0;
         
     }
 
-    public void initializeComponents() {
+    public Queens() {
+        this.num_queens = 0;
+        initComponents();
+        init();
+        listSolution = new LinkedList<>();
+        qSol = 0;
+    }
+
+    public void initComponents() {
         setTitle("N Reinas");
         setSize(SIZE, SIZE);
         setLocationRelativeTo(this);
-        setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         BorderLayout gestorLayout = new BorderLayout();
@@ -50,6 +57,7 @@ public class Queens extends JFrame{
         //add(BorderLayout.EAST, btn3);
         //add(BorderLayout.WEST, btn4);
         add(BorderLayout.CENTER, panelBoard);
+        setVisible(true);
     }
 
     public void getBoard() {
@@ -60,7 +68,8 @@ public class Queens extends JFrame{
         panelBoard.setLayout(gestor);
         for(int i = 0; i<num_queens; i++) {
             for(int j = 0; j<num_queens; j++) {
-                JButton cell = new JButton(i+" "+j);
+                JButton cell = new JButton();
+                btnCells[i][j]=cell;
                 if((i+j)%2==0)
                     cell.setBackground(Color.BLACK);
                 else
@@ -107,6 +116,7 @@ public class Queens extends JFrame{
         btnGo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 num_queens = Integer.parseInt(txtNumQueens.getText());
+                solution = new int[num_queens];
                 qSol = 0;
                 searchSolution();
                 btnCells = new JButton[num_queens][num_queens];
@@ -186,7 +196,8 @@ public class Queens extends JFrame{
     }
 
     public static void main(String[] args) {
-        Queens queen = new Queens(4);
+        //Queens queen = new Queens(4);
         //queen.searchSolution();
+        Queens queen = new Queens();
     }
 }
