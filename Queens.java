@@ -2,161 +2,34 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import java.awt.*;
-import java.awt.event.*;
-
-public class Queens extends JFrame{
+public class Queens{
 
     private int num_queens;
     private int[] solution;
-    private static final long serialVertsionUID = 1L;
-    private static final int SIZE = 500;
-    private static JPanel panelBoard = new JPanel();
-    private List<int[]> listSolution;
-    private int qSol;
-    private JButton[][] btnCells;
+    private List<int[]> solutionList;
+    private int num_Solutions;
     
     public Queens(int num_queens) {
         this.num_queens = num_queens;
         solution = new int[num_queens];
-        initComponents();
+        num_Solutions = 0;
+        solutionList = new LinkedList<>();
         init();
-        listSolution = new LinkedList<>();
-        qSol = 0;
-        
-    }
-
-    public Queens() {
-        this.num_queens = 0;
-        initComponents();
-        init();
-        listSolution = new LinkedList<>();
-        qSol = 0;
-    }
-
-    public void initComponents() {
-        setTitle("N Reinas");
-        setSize(SIZE, SIZE);
-        setLocationRelativeTo(this);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        BorderLayout gestorLayout = new BorderLayout();
-
-        //GridLayout gestor = new GridLayout(1, 4);
-        setLayout(gestorLayout);
-
-        add(BorderLayout.NORTH, getOptions());
-        add(BorderLayout.SOUTH, getResult());
-        
-        //add(BorderLayout.EAST, btn3);
-        //add(BorderLayout.WEST, btn4);
-        add(BorderLayout.CENTER, panelBoard);
-        setVisible(true);
-    }
-
-    public void getBoard() {
-        panelBoard.removeAll();
-        panelBoard.validate();
-        panelBoard.repaint();
-        GridLayout gestor = new GridLayout(num_queens, num_queens);
-        panelBoard.setLayout(gestor);
-        for(int i = 0; i<num_queens; i++) {
-            for(int j = 0; j<num_queens; j++) {
-                JButton cell = new JButton();
-                btnCells[i][j]=cell;
-                if((i+j)%2==0)
-                    cell.setBackground(Color.BLACK);
-                else
-                    cell.setBackground(Color.WHITE);
-                cell.setEnabled(false);
-                panelBoard.add(cell);
-            }
-        }
-    }
-
-    public void paintSolution(int[] s) {
-        for (int i = 0; i < s.length; i++) {
-            btnCells[s[i]][i].setText("X");
-        }
-    }
-
-    /*public JPanel getOptions() {
-        JPanel panel = new JPanel();
-        GridLayout gestor = new GridLayout(1, 2);
-        panel.setLayout(gestor);
-        //JTextField textField = new JTextField("Ingrese el numero de reinas");
-        //textField.setBounds(0, 0, gestor.getHgap(), gestor.getVgap());
-        //panel.add(textField);
-        JButton btnSolution = new JButton("Buscar solucion");
-        btnSolution.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                btnSolution.setText("Pulsado");
-            }
-        });
-        panel.add(new JLabel("Numero de Reinas "+num_queens));
-        panel.add(btnSolution);
-        return panel;
-    }*/
-
-    public JPanel getOptions() {
-        JPanel panelNorth = new JPanel();
-        FlowLayout gestor = new FlowLayout();
-        panelNorth.setLayout(gestor);
-        JLabel lbNumQueens = new JLabel("Numero de reinas: ");
-        panelNorth.add(lbNumQueens);
-        JTextField txtNumQueens = new JTextField(10);
-        panelNorth.add(txtNumQueens);
-        JButton btnGo = new JButton("Resolver");
-        btnGo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                num_queens = Integer.parseInt(txtNumQueens.getText());
-                solution = new int[num_queens];
-                qSol = 0;
-                searchSolution();
-                btnCells = new JButton[num_queens][num_queens];
-                getBoard();
-                paintSolution(listSolution.get(0));
-            }
-        });
-        panelNorth.add(btnGo);
-        return panelNorth;
-    }
-
-    /*public JPanel getSolutions() {
-        JPanel panel = new JPanel();
-        GridLayout gestor = new GridLayout(1, 2);
-        panel.setLayout(gestor);
-        JButton btnPrevious = new JButton("Anterior solucion");
-        JButton btnNext = new JButton("Siguiente solucion");
-        panel.add(btnPrevious);
-        panel.add(btnNext);
-        return panel;
-    }*/
-
-    public JPanel getResult() {
-        JPanel panelSouth = new JPanel();
-        JLabel lbnmsCantidad = new JLabel("Cantidad solucion: ");
-        JLabel lbnCantidad = new JLabel("0");
-        JButton btnPreview = new JButton("<<");
-        JLabel lbnNumsolCurrent = new JLabel("0");
-        JButton btnNext = new JButton(">>");
-        panelSouth.add(lbnmsCantidad);
-        panelSouth.add(lbnCantidad);
-        panelSouth.add(btnPreview);
-        panelSouth.add(lbnNumsolCurrent);
-        panelSouth.add(btnNext);
-        return panelSouth;
     }
 
     public void init() {
+        num_Solutions = 0;
+        solutionList.clear();
         for(int i = 0; i<solution.length; i++)
             solution[i] = -1;
+    }
+
+    public List<int[]> getSolutionList() {
+        return solutionList;
+    }
+
+    public int getNumberOfSolutions() {
+        return num_Solutions;
     }
 
     public void searchSolution() {
@@ -174,8 +47,8 @@ public class Queens extends JFrame{
                 if(valid) {
                     succes = backTracking(solution, queen+1);
                     if(queen == num_queens-1) {
-                        listSolution.add(solution.clone());
-                        qSol++;
+                        solutionList.add(solution.clone());
+                        num_Solutions++;
                     }
                 }
             }while(solution[queen] < num_queens-1 && !succes);
@@ -196,8 +69,7 @@ public class Queens extends JFrame{
     }
 
     public static void main(String[] args) {
-        //Queens queen = new Queens(4);
-        //queen.searchSolution();
-        Queens queen = new Queens();
+        Queens queen = new Queens(4);
+        queen.searchSolution();
     }
 }
