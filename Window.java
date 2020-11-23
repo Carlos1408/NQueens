@@ -137,7 +137,7 @@ public class Window extends JFrame{
                 num_Solutions = queen.getNumberOfSolutions();
                 solPosition = 0;
                 lblQuantity.setText(String.valueOf(num_Solutions));
-                pieceIcon = new ImageIcon("icons/quuen.png");
+                pieceIcon = new ImageIcon("icons/queen.png");
                 getBoard();
                 paintSolution();
             }
@@ -151,12 +151,8 @@ public class Window extends JFrame{
         lblNumsolCurrent.setText(String.valueOf(solPosition+1));
         int[] s = solutionList.get(solPosition);
         for(int i = 0; i<s.length; i++) {
-            btnCells[s[i]][i].setText("X");
-            //btnCells[s[i]][i].setIcon(pieceIcon);
+            //btnCells[s[i]][i].setText("X");
+            btnCells[s[i]][i].setIcon(pieceIcon);
         }
-    }
-    
-    public static void main(String[] args) {
-        Window window = new Window();
     }
 }

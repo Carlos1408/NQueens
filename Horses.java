@@ -57,17 +57,13 @@ public class Horses {
 
     public boolean horseIsValid(int[] solution, int horse) {
         boolean ok = true;
-        for (int i = 0; i < horse; i++) {
-            if((solution[i+1]+2)==solution[horse] || (solution[i+1]-2)==solution[horse]) {
+        if(horse-1 >= 0){
+            if (solution[horse]==solution[horse-1]-2 || solution[horse] == solution[horse-1]+2)
                 ok = false;
-                break;
-            }
-            if(i+2<=num_horses-1) {
-                if((solution[i+2]+1)==solution[horse] || (solution[i+2]-1)==solution[horse]) {
-                    ok = false;
-                    break;
-                }
-            }
+        }
+        if(horse-2 >= 0) {
+            if (solution[horse]==solution[horse-2]-1 || solution[horse] == solution[horse-2]+1)
+                ok = false;
         }
         return ok;
     }
